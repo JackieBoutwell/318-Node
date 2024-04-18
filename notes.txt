@@ -1,0 +1,106 @@
+ Generally speaking, JavaScript has two commonly used runtime environments:
+
+ The browser runtime environment (e.g., within Chrome, Firefox, Edge, etc.)
+ The Node runtime environment.
+
+ NodeJS, or simply Node, is a runtime environment that allows the execution of JavaScript code without a browser.
+ With the introduction of Node, developers can create full-stack (front-end and back-end) applications using a single language: JavaScript.
+
+ While the browser's runtime environment provides access to convenient front-end tools like the document and window objects,
+  Node does not.Node does not interface with the front - end at all, and therefore does not have access to the browser or its features.
+
+ Instead, Node contains its own environment variables to provide specific types of information and methods relevant to its environment.
+
+ The Anatomy of HTTP Requests
+
+ In order to create a web server, you need to understand the components of an HTTP request - the communication protocol used to speak with the server:
+ The request method, GET, POST, PUT, DELETE, etc., explains the interaction that is being requested from the server. Each of these methods has a standard operation associated with it, which you can read about on the MDN documentation.
+ The target URL for the request, which determines where it is sent.
+ Any information associated with the request, such as form data.
+ Any additional information, such as the user agent, content type, cookies, etc.
+ Each of these pieces of information can be used by the server to determine what kind of response to send. 
+ 
+ create read update delete - crud opperations
+ post is to creat something.
+
+ Similarly, the server sends a response to the client that includes specific information:
+ The status code, which indicates if the request was successful, unsuccessful, or some specific variation of (un)success.
+  You can read about the various different status codes within the MDN documentation.
+ The server type, content type, and any caching directives.
+ The actual content being served. This can include HTML, JSON, images, or any other type of data.
+ The ability to send custom responses to client requests is the foundation for all interaction within web applications.
+
+Building an API
+
+ In order to create an API, we need to receive HTTP requests, process the information in whatever way the application requires, and then send an appropriate HTTP response.
+ Node provides built -in tools for this, which we will explore in the following examples as well as an upcoming guided lab activity.
+ During future lessons, you will also learn how to use the Express package to streamline the construction of an API.
+
+Creating a Node server
+
+const http = require("http");
+
+http
+  .createServer((req, res) => {
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "text/html");
+    res.write("Hello World");
+      res.end();
+      //code below is the listen for request port 3000
+  }).listen(3000, () => {
+    console.log(`Server running.`);
+  });
+
+
+ The http module contains a createServer method that allows us to
+ create an HTTP server.This method accepts an options object,
+Which we will forgo for now, and a callback function.
+The request(req) and response(res) objects are passed into this callback
+function to allow us to read request properties,
+and then build and send an appropriate response.
+
+Once we have created the logic for receiving requests and sending responses,
+we need to tell the server to listen for the requests using the listen method
+of the created server object.This method accepts an optional port, hostname,
+and callback function.
+
+ We will set the server to listen to port 3000, and log when it starts.
+ you can make your port range to 3000 to 8000
+ on the web they will make different ports
+
+We have not yet worked with the request object, which has a variety of useful properties. 
+We will use the url property to create a different path for the requests to follow.
+The url property contains all of the information in the URL after the base,
+so navigating to wlkksv-3000.csb.app/test would give us a url property value of "/test."
+Using this, we can create a different response based on the URL of the request, which is an expectation of web applications. An example follows.
+
+Below, we use the url property of the req object to give a different response based on the URL of the request,
+and send a 404 (not found) status for any URLs that we are not specifically handling.
+
+const http = require("http");
+
+http
+  .createServer((req, res) => {
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "text/html");
+    res.write("Hello World");
+    res.end();
+  }).listen(3000, () => {
+    console.log(`Server running.`);
+  });
+
+
+Routing Requests
+The practice of sending different responses depending on the request parameters,
+specifically the URL, is known as request routing.
+Routing HTTP requests is important because a web application typically
+(almost always) wants to execute different rules depending on the request URL, 
+so the responses will be different for each route.
+
+Looking Ahead: Express.js
+Express.js (or simply Express) makes the process of routing requests more robust and scalable
+ by adding features specifically designed for building web applications and APIs, without obscuring the core features of Node.
+While Node provides a JavaScript runtime on which servers can be built,
+ Express provides the server framework that makes it easier to build applications within Node.
+We will explore Express in a future lesson.
+

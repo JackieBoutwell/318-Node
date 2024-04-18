@@ -1,0 +1,32 @@
+const http = require("http");
+
+http
+    .createServer((req, res) => {
+        // we can use a if statement or a switch statment. > if (req.url === "/test")
+
+        switch (req.url) {
+            case '/test':
+                res.statusCode = 200;
+                res.setHeader("Content-Type", "text/html");
+                res.write("Hello World");
+                res.end();
+                break;
+            case '/':
+            res.statusCode = 400;
+            res.setHeader("Content-Type", "text/html");
+            res.write("Home Page!");
+            res.end();
+                break;
+            default: // default is just like else statment.
+            res.statusCode = 404;
+            res.setHeader("Content-Type", "text/html");
+            res.write("Not found..");
+            res.end();
+      }
+      //code below is the listen for request port 3000
+  }).listen(3000, () => {
+    console.log(`Server running.`);
+  });
+
+
+
